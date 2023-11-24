@@ -1,4 +1,7 @@
 import 'package:unj_canteen/services/auth/auth_service.dart';
+import 'package:unj_canteen/components/my_rating_widget.dart';
+import 'package:unj_canteen/components/my_feedback_list.dart';
+import 'package:unj_canteen/components/my_rating_input.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -321,37 +324,53 @@ class _DaksinBaratState extends State<DaksinBarat> {
     String foodName,
   ) {
     return Container(
+      height: 800,
       color: Color(0xFF333333),
       child: Column(
         children: [
-          Container(
-            color: Color(0xFF5B5B5B),
-            child: Column(
-              children: [
-                Image(
-                  image: AssetImage("assets/images/$imagePath"),
-                  width: 206,
-                  height: 116,
-                  fit: BoxFit.fill,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  '  $foodName\n',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w700,
-                    height: 0,
-                  ),
-                ),
-                // TODO make show rating and comment from each user
-                // TODO make input 1-5 stars and comment for user
-              ],
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    color: Color(0xFF5B5B5B),
+                    padding: EdgeInsets.all(10.0),
+                    child: Column(
+                      children: [
+                        Image(
+                          image: AssetImage("assets/images/$imagePath"),
+                          width: 206,
+                          height: 116,
+                          fit: BoxFit.fill,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          '$foodName\n',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w700,
+                            height: 0,
+                          ),
+                        ),
+                        RatingWidget(foodName: foodName),
+                        const SizedBox(height: 10),
+                        FeedbackList(foodName: foodName),
+                        const SizedBox(height: 150),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-          )
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: FeedbackForm(foodName: foodName),
+          ),
         ],
       ),
     );
